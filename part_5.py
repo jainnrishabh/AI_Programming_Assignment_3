@@ -20,19 +20,19 @@ def derivative_mse_loss(target, predictions):
 
 def classify(x, y, w1,w2,b1,b2):
     y1 = np.dot(x,w1) + b1
-    a1 = activation_relu(y1)
+    a1 = activation_sigmoid(y1)
     y2 = np.dot(a1,w2) + b2
-    a2 = activation_relu(y2)
+    a2 = activation_sigmoid(y2)
 
     loss =  mse(y, a2)
 
     dA2 = derivative_mse_loss(y,a2)
-    dY2 = dA2 * derivative_relu(y2)
+    dY2 = dA2 * derivative_sigmoid(y2)
     dW2 = np.dot(a1.T, dY2)
     dB2 = np.sum(dY2 , axis = 0 , keepdims= True) 
 
     dA1 = np.dot(dY2,w2.T)
-    dY1 = dA1 *  derivative_relu(y1)
+    dY1 = dA1 *  derivative_sigmoid(y1)
     dW1 = np.dot(x.T,dY1)
     dB1 = np.sum(dY1 , axis = 0 , keepdims= True) 
     
@@ -48,9 +48,9 @@ def update_weights(w1, w2, b1, b2, dW1 , dW2 , dB1, dB2):
 
 def predict(x,w1,w2,b1,b2):
     y1 = np.dot(x,w1) + b1
-    a1 = activation_relu(y1)
+    a1 = activation_sigmoid(y1)
     y2 = np.dot(a1,w2) + b2
-    a2 = activation_relu(y2)
+    a2 = activation_sigmoid(y2)
     return a2
 
 
@@ -69,5 +69,3 @@ def main():
         w1,w2,b1,b2 = update_weights(w1, w2, b1, b2, dW1, dW2, dB1, dB2)
 
     print(predict(np.array(x),w1,w2,b1,b2))
-
-main()
